@@ -1,0 +1,19 @@
+# Large model files (exceed GitHub's 100MB limit)
+yolov8x.pt
+training/yolov8m.pt
+
+# Output videos (too large for GitHub)
+output_videos/
+models/*.mp4
+
+# Input videos
+input/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
