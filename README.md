@@ -32,19 +32,29 @@ It detects and tracks every **player**, **goalkeeper**, **referee**, and the **b
 
 ## 🎬 Demo
 
-> **Input** → Raw match broadcast footage  
-> **Output** → Fully annotated analysis video
+<div align="center">
+
+![PitchVision AI Tactical Demo](docs/assets/demo.gif)
+
+<br/>
+
+📹 **[Click here to watch / download the full output video (`output_videos/output_video.mp4`)](output_videos/output_video.mp4)**
+
+</div>
+
+### 📊 Tactical Overlay Breakdown
 
 | Annotation | Description |
 |---|---|
-| 🟢 Green triangle | Ball position |
-| 🔴 Red triangle | Player with ball possession |
-| 🟡 Yellow ellipse | Referee |
-| 🔵🟣 Colored ellipses | Players colored by team |
-| `#ID` | Persistent player tracking ID |
-| `km/h` & `m` | Real-time speed & distance |
-| Top-left box | Camera movement (X & Y) |
-| Bottom-right box | Team ball control percentages |
+| 🔷 **Team Convex Hulls** | Real-time semi-transparent team formation polygons on camera view & 2D radar |
+| 📊 **Top HUD Dashboard** | Live `FRAME` counter, team possession split progress bar, and Team Spread metrics |
+| 🗺️ **Tactical 2D Pitch Map** | 105m x 68m top-down pitch radar displaying 2D player dots, team hulls & ball tracking |
+| 🏆 **Top Distance Leaderboard** | Live leaderboards box tracking top player distances covered in real-time |
+| 🟢 Green triangle | Ball position tracking |
+| 🔴 Red triangle | Player with active ball control |
+| 🟡 Yellow ellipse | Referee tracking |
+| 🔵🟢 Ellipses | Team identification colors & persistent tracking IDs |
+| `km/h` & `m` | Real-time speed & cumulative distance covered |
 
 ---
 
