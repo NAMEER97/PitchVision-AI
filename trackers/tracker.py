@@ -7,12 +7,13 @@ import pandas as pd
 import cv2
 import sys 
 sys.path.append('../')
-from utils import get_center_of_bbox, get_bbox_width, get_foot_position
+from utils import get_center_of_bbox, get_bbox_width, get_foot_position, TacticalDrawUtils
 
 class Tracker:
     def __init__(self, model_path):
         self.model = YOLO(model_path) 
         self.tracker = sv.ByteTrack()
+        self.tactical_drawer = TacticalDrawUtils()
 
     def add_position_to_tracks(sekf,tracks):
         for object, object_tracks in tracks.items():
@@ -192,7 +193,10 @@ class Tracker:
             ball_dict = tracks["ball"][frame_num]
             referee_dict = tracks["referees"][frame_num]
 
-            # Draw Players
+            # 1. Draw Team Convex Hulls on main camera view
+            frame = self.tactical_drawer.draw_convex_hulls(frame, player_dict)
+
+            # 2. Draw Players
             for track_id, player in player_dict.items():
                 color = player.get("team_color",(0,0,255))
                 frame = self.draw_ellipse(frame, player["bbox"],color, track_id)
@@ -200,18 +204,22 @@ class Tracker:
                 if player.get('has_ball',False):
                     frame = self.draw_traingle(frame, player["bbox"],(0,0,255))
 
-            # Draw Referee
+            # 3. Draw Referee
             for _, referee in referee_dict.items():
                 frame = self.draw_ellipse(frame, referee["bbox"],(0,255,255))
             
-            # Draw ball 
+            # 4. Draw ball 
             for track_id, ball in ball_dict.items():
                 frame = self.draw_traingle(frame, ball["bbox"],(0,255,0))
 
+            # 5. Draw Top HUD Dashboard Overlay
+            frame = self.tactical_drawer.draw_top_hud(frame, frame_num, team_ball_control, player_dict)
 
-            # Draw Team Ball Control
-            frame = self.draw_team_ball_control(frame, frame_num, team_ball_control)
+            # 6. Draw Right Side Panel (Top Distance Leaderboard + Tactical 2D Pitch Map)
+            combined_frame = self.tactical_drawer.draw_side_panel_and_pitch(
+                frame, frame_num, player_dict, referee_dict, ball_dict, tracks
+            )
 
-            output_video_frames.append(frame)
+            output_video_frames.append(combined_frame)
 
         return output_video_frames

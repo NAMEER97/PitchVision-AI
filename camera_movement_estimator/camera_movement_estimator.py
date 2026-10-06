@@ -86,13 +86,13 @@ class CameraMovementEstimator():
             frame= frame.copy()
 
             overlay = frame.copy()
-            cv2.rectangle(overlay,(0,0),(500,100),(255,255,255),-1)
-            alpha =0.6
+            cv2.rectangle(overlay,(15,1015),(320,1070),(15,15,15),-1)
+            alpha =0.5
             cv2.addWeighted(overlay,alpha,frame,1-alpha,0,frame)
 
             x_movement, y_movement = camera_movement_per_frame[frame_num]
-            frame = cv2.putText(frame,f"Camera Movement X: {x_movement:.2f}",(10,30), cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
-            frame = cv2.putText(frame,f"Camera Movement Y: {y_movement:.2f}",(10,60), cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
+            frame = cv2.putText(frame,f"Camera Movement X: {x_movement:.2f}",(25,1035), cv2.FONT_HERSHEY_SIMPLEX,0.45,(200,200,200),1, cv2.LINE_AA)
+            frame = cv2.putText(frame,f"Camera Movement Y: {y_movement:.2f}",(25,1055), cv2.FONT_HERSHEY_SIMPLEX,0.45,(200,200,200),1, cv2.LINE_AA)
 
             output_frames.append(frame) 
 
